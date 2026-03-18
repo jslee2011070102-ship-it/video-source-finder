@@ -321,6 +321,10 @@ body {
 #grid-image-search {
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
 }
+#grid-search-links {
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+}
+#section-search-links { margin-bottom: 28px; }
 
 /* ===== 자막 분석 버튼 ===== */
 .btn-analyze {

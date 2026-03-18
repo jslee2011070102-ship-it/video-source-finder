@@ -54,7 +54,7 @@ function renderKeywords(kw) {
 
 // ── 영상 카드 생성 ──
 function createVideoCard(item) {
-  if (item.type === 'image_search') {
+  if (item.type === 'image_search' || item.type === 'search_link') {
     const a = document.createElement('a');
     a.href = item.url;
     a.target = '_blank';
@@ -112,14 +112,20 @@ function renderResults(channels) {
 
   // 타입별 분류
   const imageSearchItems = allResults.filter(r => r.type === 'image_search');
+  const searchLinkItems  = allResults.filter(r => r.type === 'search_link');
   const videoItems = allResults.filter(r => r.type === 'video');
   const noSubtitle  = videoItems.filter(r => r.hasSubtitle === false);
   const hasSubtitle = videoItems.filter(r => r.hasSubtitle === true);
   const unanalyzed  = videoItems.filter(r => r.hasSubtitle === null || r.hasSubtitle === undefined);
 
   // 요약
-  $('result-summary').textContent =
-    `총 ${videoItems.length}개 영상 · 자막 없음 ${noSubtitle.length}개 · 이미지 검색 ${imageSearchItems.length}개`;
+  if (searchLinkItems.length > 0) {
+    $('result-summary').textContent =
+      `SerpAPI 키 없음 — 채널 직접 검색 링크 ${searchLinkItems.length}개 · 이미지 검색 ${imageSearchItems.length}개`;
+  } else {
+    $('result-summary').textContent =
+      `총 ${videoItems.length}개 영상 · 자막 없음 ${noSubtitle.length}개 · 이미지 검색 ${imageSearchItems.length}개`;
+  }
 
   // 자막 없음
   if (noSubtitle.length > 0) {
@@ -136,6 +142,17 @@ function renderResults(channels) {
     grid.innerHTML = '';
     imageSearchItems.forEach(item => grid.appendChild(createVideoCard(item)));
     show('section-image-search');
+  }
+
+  // 채널 검색 링크 (SerpAPI 없을 때)
+  if (searchLinkItems.length > 0) {
+    const el = $('section-search-links');
+    if (el) {
+      const grid = $('grid-search-links');
+      grid.innerHTML = '';
+      searchLinkItems.forEach(item => grid.appendChild(createVideoCard(item)));
+      show('section-search-links');
+    }
   }
 
   // 미분석 (자막 분석 전)
@@ -229,6 +246,7 @@ async function startSearch() {
   hide('results-section');
   hide('section-no-subtitle');
   hide('section-image-search');
+  hide('section-search-links');
   hide('section-has-subtitle');
   hide('section-unanalyzed');
   $('channel-status').innerHTML = '';
