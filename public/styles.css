@@ -171,9 +171,10 @@ body {
   background: #f8f9fa;
   color: #555;
 }
-.channel-chip.done  { background: #e8f5e9; border-color: #a5d6a7; color: #2e7d32; }
-.channel-chip.error { background: #fce4ec; border-color: #f48fb1; color: #c62828; }
-.channel-chip.loading { background: #fff8e1; border-color: #ffe082; color: #f57f17; }
+.channel-chip.done     { background: #e8f5e9; border-color: #a5d6a7; color: #2e7d32; }
+.channel-chip.error    { background: #fce4ec; border-color: #f48fb1; color: #c62828; }
+.channel-chip.loading  { background: #fff8e1; border-color: #ffe082; color: #f57f17; }
+.channel-chip.fallback { background: #e3f2fd; border-color: #90caf9; color: #1565c0; }
 
 /* ===== 결과 영역 ===== */
 .filter-bar {

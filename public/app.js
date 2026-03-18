@@ -318,7 +318,9 @@ async function startSearch() {
     let done = 0;
     searchData.channels.forEach(ch => {
       done++;
-      const status = ch.results?.length > 0 ? 'done' : 'error';
+      const hasResults = ch.results?.length > 0;
+      const isSearchLink = hasResults && ch.results[0]?.type === 'search_link';
+      const status = !hasResults ? 'error' : isSearchLink ? 'fallback' : 'done';
       setChannelStatus(ch.channel, status);
       setProgress(done, total);
     });
