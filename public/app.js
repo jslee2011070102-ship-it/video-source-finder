@@ -119,12 +119,17 @@ function renderResults(channels) {
   const unanalyzed  = videoItems.filter(r => r.hasSubtitle === null || r.hasSubtitle === undefined);
 
   // 요약
-  if (searchLinkItems.length > 0) {
+  const totalVideos = videoItems.length;
+  const totalLinks  = searchLinkItems.length;
+  if (totalVideos === 0 && totalLinks > 0) {
     $('result-summary').textContent =
-      `SerpAPI 키 없음 — 채널 직접 검색 링크 ${searchLinkItems.length}개 · 이미지 검색 ${imageSearchItems.length}개`;
+      `채널 직접 검색 링크 ${totalLinks}개 · 이미지 검색 ${imageSearchItems.length}개 (SerpAPI 결과 없음 — 링크 클릭 후 직접 검색)`;
+  } else if (totalVideos > 0 && totalLinks > 0) {
+    $('result-summary').textContent =
+      `영상 ${totalVideos}개 · 검색 링크 ${totalLinks}개 · 이미지 검색 ${imageSearchItems.length}개`;
   } else {
     $('result-summary').textContent =
-      `총 ${videoItems.length}개 영상 · 자막 없음 ${noSubtitle.length}개 · 이미지 검색 ${imageSearchItems.length}개`;
+      `총 ${totalVideos}개 영상 · 자막 없음 ${noSubtitle.length}개 · 이미지 검색 ${imageSearchItems.length}개`;
   }
 
   // 자막 없음
@@ -287,7 +292,7 @@ async function startSearch() {
 
   // ── Step 2: 채널 검색 ──
   const CHANNELS = [
-    'TikTok','Pinterest','Bilibili','Douyin','Kwai','Instagram',
+    'TikTok','Pinterest','Bilibili','抖音 Douyin','快手 Kwai','Instagram',
     '小红书','Lemon8','Amazon','AliExpress','1688','Alibaba',
     'Taobao','Tmall','Lazada','Shopee','이미지 검색'
   ];
