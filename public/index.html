@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🎬 쿠팡 동영상 소재 수집기</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <header class="header">
+    <div class="header-inner">
+      <h1>🎬 쿠팡 동영상 소재 수집기</h1>
+      <p class="header-sub">쿠팡 URL만 입력하면 16개 채널에서 동영상 소재를 자동으로 찾아드립니다</p>
+    </div>
+  </header>
+
+  <main class="main">
+
+    <!-- ── 입력 영역 ── -->
+    <section class="input-section">
+      <div class="input-row">
+        <input
+          type="url"
+          id="coupang-url"
+          placeholder="쿠팡 상품 URL을 붙여넣으세요 (예: https://www.coupang.com/vp/products/...)"
+          autocomplete="off"
+        >
+        <button id="btn-search" class="btn-primary">🔍 분석 시작</button>
+      </div>
+      <div id="error-msg" class="error-msg hidden"></div>
+    </section>
+
+    <!-- ── 제품 정보 카드 ── -->
+    <section id="product-card" class="product-card hidden">
+      <img id="product-image" src="" alt="제품 이미지" class="product-image">
+      <div class="product-info">
+        <div class="product-title" id="product-title"></div>
+        <div class="product-meta" id="product-meta"></div>
+        <div class="keyword-box">
+          <span class="keyword-label">검색 키워드</span>
+          <span id="keywords-display" class="keywords-display"></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 진행 상태 ── -->
+    <section id="progress-section" class="hidden">
+      <div class="progress-header">
+        <span id="progress-text">채널 검색 중...</span>
+        <span id="progress-count" class="progress-count"></span>
+      </div>
+      <div class="progress-bar-wrap">
+        <div id="progress-bar" class="progress-bar"></div>
+      </div>
+      <div id="channel-status" class="channel-status"></div>
+    </section>
+
+    <!-- ── 결과 영역 ── -->
+    <section id="results-section" class="hidden">
+
+      <!-- 필터 바 -->
+      <div class="filter-bar">
+        <div class="result-summary" id="result-summary"></div>
+        <div class="filter-btns">
+          <button class="filter-btn active" data-filter="all">전체</button>
+          <button class="filter-btn" data-filter="no-subtitle">🟢 자막 없음</button>
+          <button class="filter-btn" data-filter="has-subtitle">🔴 자막 있음</button>
+          <button class="filter-btn" data-filter="image_search">🔍 이미지 검색</button>
+        </div>
+      </div>
+
+      <!-- 자막 없음 섹션 (우선 표시) -->
+      <div id="section-no-subtitle" class="hidden">
+        <div class="section-title">🟢 자막 없는 영상 <span class="section-count" id="count-no-subtitle"></span></div>
+        <div id="grid-no-subtitle" class="video-grid"></div>
+      </div>
+
+      <!-- 이미지 검색 섹션 -->
+      <div id="section-image-search" class="hidden">
+        <div class="section-title">🔍 이미지로 검색</div>
+        <div id="grid-image-search" class="video-grid"></div>
+      </div>
+
+      <!-- 자막 있음 섹션 -->
+      <div id="section-has-subtitle" class="hidden">
+        <div class="section-title">🔴 자막 있는 영상 <span class="section-count" id="count-has-subtitle"></span></div>
+        <div id="grid-has-subtitle" class="video-grid"></div>
+      </div>
+
+      <!-- 미분석 (Vision API 미사용 시) -->
+      <div id="section-unanalyzed" class="hidden">
+        <div class="section-title">
+          📋 검색 결과 <span class="section-count" id="count-unanalyzed"></span>
+          <button id="btn-analyze" class="btn-analyze">🤖 자막 AI 분석</button>
+        </div>
+        <div id="grid-unanalyzed" class="video-grid"></div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
